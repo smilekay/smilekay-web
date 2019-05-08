@@ -26,7 +26,11 @@
 <script>
   import {checkPassword} from '@/utils/Validate';
 
+  var _this = {}
   export default {
+    beforeCreate() {
+      _this = this;
+    },
     data() {
       const validatorPassword = (rule, value, callback) => {
         if (!value) {
@@ -75,7 +79,42 @@
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('submit!');
+            console.log('userName:' + this.regForm.name + '\nloginCode:' + this.regForm.username + '\npassword:' + this.regForm.pass + '\nemail:' + this.regForm.email);
+            const params = new URLSearchParams();
+            params.append('userName', this.regForm.name);
+            params.append('loginCode', this.regForm.username);
+            params.append('password', this.regForm.pass);
+            params.append('email', this.regForm.email);
+            const loginParams = new URLSearchParams();
+            loginParams.append('loginCode', this.regForm.username);
+            loginParams.append('password', this.regForm.pass);
+            this.$axios({
+              method: 'post',
+              url: 'http://www.smilekay.com:8080/register',
+              data: params
+            }).then(function (response) {
+              if (response.data.result === 'ok') {
+                console.log(response.data);
+                _this.$axios({
+                  method: 'post',
+                  url: 'http://www.smilekay.com:8080/login',
+                  data: loginParams
+                }).then(function (res) {
+                  if (res.data.result === 'ok') {
+                    console.log(res.data);
+                    _this.$router.push('/callback')
+                  } else {
+                    console.log(res.data.message);
+                  }
+                }).catch(function (error) {
+                  console.log('登录失败 error:' + error);
+                })
+              } else {
+                console.log(response.data.message);
+              }
+            }).catch(function (error) {
+              console.log('注册失败 error:' + error);
+            })
           } else {
             console.log('error submit!!');
             return false;

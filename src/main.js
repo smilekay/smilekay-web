@@ -10,7 +10,6 @@ import './assets/icon/iconfont.css'
 import Vuex from 'vuex'
 import store from './store'
 import axios from 'axios'
-import VueAxios from 'vue-axios'
 import qs from 'qs'
 
 router.beforeEach((to, from, next) => {
@@ -37,7 +36,7 @@ router.beforeEach((to, from, next) => {
 Vue.use(VueRouter);
 Vue.use(ElementUI);
 Vue.use(Vuex);
-Vue.use(VueAxios,axios);
+Vue.prototype.$axios = axios
 Vue.prototype.qs = qs
 
 new Vue({
