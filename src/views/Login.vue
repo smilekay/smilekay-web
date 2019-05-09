@@ -22,7 +22,8 @@
         <img class="icon" src="../assets/icon_qq.png" @click="onQQLogin"/>
 
         <!--微博登录-->
-        <a href="https://api.weibo.com/oauth2/authorize?client_id=4097946870&response_type=code&redirect_uri=http://www.smilekay.com/login">
+        <a
+          href="https://api.weibo.com/oauth2/authorize?client_id=4097946870&response_type=code&redirect_uri=http://www.smilekay.com/login">
           <img class="icon" src="../assets/icon_weibo.png"/>
         </a>
       </el-form-item>
@@ -53,12 +54,24 @@
     },
     methods: {
       onSubmit(formName) {
-        // 为表单绑定验证功能
+        const params = {
+          loginCode: this.form.username,
+          password: this.form.password
+        }
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            // 使用 vue-router 路由到指定页面，该方式称之为编程式导航
-            this.$router.push("/mall");
-            sessionStorage.setItem('isLogin', 'true');
+            this.$post('/login', params
+            ).then(res => {
+              console.log(res.message);
+              localStorage.setItem('token', res.data)
+              this.$router.push("/mall");
+            }).catch(error => {
+              if (error) {
+                console.log('登录失败 error:' + error.message);
+              } else {
+                console.log('连接服务器失败');
+              }
+            })
           } else {
             return false;
           }

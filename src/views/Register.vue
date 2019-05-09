@@ -26,11 +26,7 @@
 <script>
   import {checkPassword} from '@/utils/Validate';
 
-  var _this = {}
   export default {
-    beforeCreate() {
-      _this = this;
-    },
     data() {
       const validatorPassword = (rule, value, callback) => {
         if (!value) {
@@ -77,43 +73,44 @@
     },
     methods: {
       submitForm(formName) {
+        const self = this;
         this.$refs[formName].validate((valid) => {
           if (valid) {
             console.log('userName:' + this.regForm.name + '\nloginCode:' + this.regForm.username + '\npassword:' + this.regForm.pass + '\nemail:' + this.regForm.email);
-            const params = new URLSearchParams();
-            params.append('userName', this.regForm.name);
-            params.append('loginCode', this.regForm.username);
-            params.append('password', this.regForm.pass);
-            params.append('email', this.regForm.email);
+            const params1 = {
+              userName: this.regForm.name,
+              loginCode: this.regForm.username,
+              password: this.regForm.pass,
+              email: this.regForm.email
+            }
+            const params2 = {
+              loginCode: this.regForm.username,
+              password: this.regForm.pass
+            }
             const loginParams = new URLSearchParams();
             loginParams.append('loginCode', this.regForm.username);
             loginParams.append('password', this.regForm.pass);
-            this.$axios({
-              method: 'post',
-              url: 'http://www.smilekay.com:8080/register',
-              data: params
-            }).then(function (response) {
-              if (response.data.result === 'ok') {
-                console.log(response.data);
-                _this.$axios({
-                  method: 'post',
-                  url: 'http://www.smilekay.com:8080/login',
-                  data: loginParams
-                }).then(function (res) {
-                  if (res.data.result === 'ok') {
-                    console.log(res.data);
-                    _this.$router.push('/callback')
-                  } else {
-                    console.log(res.data.message);
-                  }
-                }).catch(function (error) {
-                  console.log('登录失败 error:' + error);
-                })
-              } else {
-                console.log(response.data.message);
-              }
+            this.$post('/register', params1
+            ).then(function (response) {
+              console.log(response.message);
+              self.$post('/login', params2
+              ).then(function (res) {
+                console.log(res.message);
+                localStorage.setItem('token', res.data)
+                self.$router.push('/callback')
+              }).catch(function (error) {
+                if (error){
+                  console.log('登录失败 error:' + error.message);
+                } else {
+                  console.log('连接服务器失败');
+                }
+              })
             }).catch(function (error) {
-              console.log('注册失败 error:' + error);
+              if (error){
+                console.log('注册失败 error:' + error.message);
+              } else {
+                console.log('连接服务器失败');
+              }
             })
           } else {
             console.log('error submit!!');

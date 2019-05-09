@@ -26,7 +26,7 @@
     name: "Main",
     methods: {
       onQuit() {
-        sessionStorage.clear();
+        localStorage.clear();
         this.$router.push('/logout');
       },
       onSelect(path){

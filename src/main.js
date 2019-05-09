@@ -9,26 +9,24 @@ import 'element-ui/lib/theme-chalk/index.css'
 import './assets/icon/iconfont.css'
 import Vuex from 'vuex'
 import store from './store'
-import axios from 'axios'
-import qs from 'qs'
+import {get, post} from './utils/http'
 
 router.beforeEach((to, from, next) => {
-  let isLogin = sessionStorage.getItem('isLogin');
-  if (to.path == '/logout') {
-    sessionStorage.clear();
-    next({path: '/login'});
-  } else if (to.path == '/') {
-    if (isLogin == null) {
+  let token = localStorage.getItem('token');
+  if (!token) {
+    if (to.path != '/register' && to.path != '/login') {
       next({path: '/login'});
     }
-  } else if (to.path == '/login') {
-    if (isLogin != null) {
-      next({path: '/'});
-    }
-  } else if (to.path == '/register') {
-    if (isLogin != null) {
-      next({path: '/'});
-    }
+  } else {
+    get('/check_login', {token: token}).then(response => {
+      if (to.path == '/register' || to.path == '/login') {
+        console.log(response.message)
+        next({path: from.path})
+      }
+    }).catch(error => {
+      console.log(error.message)
+      next({path: '/login'})
+    })
   }
   next();
 });
@@ -36,8 +34,8 @@ router.beforeEach((to, from, next) => {
 Vue.use(VueRouter);
 Vue.use(ElementUI);
 Vue.use(Vuex);
-Vue.prototype.$axios = axios
-Vue.prototype.qs = qs
+Vue.prototype.$get = get;
+Vue.prototype.$post = post;
 
 new Vue({
   el: '#app',

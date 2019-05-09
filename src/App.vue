@@ -21,6 +21,7 @@
     display: flex;
     align-items: center;
     position: absolute;
+    background-image: url("assets/background.png");
     top: 0;
     bottom: 0;
     left: 0;
