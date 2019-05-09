@@ -26,8 +26,14 @@
     name: "Main",
     methods: {
       onQuit() {
-        localStorage.clear();
-        this.$router.push('/logout');
+        let token=localStorage.getItem('token')
+        this.$get('/logout',{token:token}).then(response=>{
+          console.log(response.message);
+          localStorage.clear();
+          this.$router.push('/logout');
+        }).catch(()=>{
+          console.log('注销失败');
+        })
       },
       onSelect(path){
         this.$router.push(path);
