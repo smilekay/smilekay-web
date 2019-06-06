@@ -1,38 +1,38 @@
 <template>
-  <el-container id="container">
-    <el-header>
-      <img class="image" src="../assets/asd.jpg"/>
-    </el-header>
-    <el-main>
-      <el-form ref="loginForm" :model="form" :rules="rules" label-width="80px" class="login-box">
-        <h3 class="login-title">欢迎登录</h3>
-        <el-form-item prop="username">
-          <el-input type="text" placeholder="请输入账号" v-model="form.username">
-            <i slot="prepend" class="iconfont el-icon-smileyonghuming"/>
-          </el-input>
-        </el-form-item>
-        <el-form-item prop="password">
-          <el-input type="password" placeholder="请输入密码" v-model="form.password">
-            <i slot="prepend" class="iconfont el-icon-smilemima"/>
-          </el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-button class="login-btn" type="primary" v-on:click="onSubmit('loginForm')">登录</el-button>
-          <el-button class="login-btn" @click="onClickRegister">注册</el-button>
-        </el-form-item>
-        <el-form-item>
-          <!--QQ登录-->
-          <img class="icon" src="../assets/icon_qq.png" @click="onQQLogin"/>
+  <div>
+    <el-form id="background" class="background-style">
 
-          <!--微博登录-->
-          <a
-            href="https://api.weibo.com/oauth2/authorize?client_id=4097946870&response_type=code&redirect_uri=http://www.smilekay.com/login">
-            <img class="icon" src="../assets/icon_weibo.png"/>
-          </a>
-        </el-form-item>
-      </el-form>
-    </el-main>
-  </el-container>
+    </el-form>
+    <img class="image" src="../assets/asd.jpg"/>
+    <el-form ref="loginForm" :model="form" :rules="rules" label-width="80px" class="login-box">
+      <h3 class="login-title">欢迎登录</h3>
+      <el-form-item prop="username">
+        <el-input type="text" placeholder="请输入账号" v-model="form.username">
+          <i slot="prepend" class="iconfont el-icon-smileyonghuming"/>
+        </el-input>
+      </el-form-item>
+      <el-form-item prop="password">
+        <el-input type="password" placeholder="请输入密码" v-model="form.password">
+          <i slot="prepend" class="iconfont el-icon-smilemima"/>
+        </el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button class="login-btn" type="primary" v-on:click="onSubmit('loginForm')">登录</el-button>
+        <el-button class="login-btn" @click="onClickRegister">注册</el-button>
+      </el-form-item>
+      <el-form-item>
+        <!--QQ登录-->
+        <img class="icon" src="../assets/icon_qq.png" @click="onQQLogin"/>
+
+        <!--微博登录-->
+        <a
+          href="https://api.weibo.com/oauth2/authorize?client_id=4097946870&response_type=code&redirect_uri=http://www.smilekay.com/login">
+          <img class="icon" src="../assets/icon_weibo.png"/>
+        </a>
+      </el-form-item>
+    </el-form>
+  </div>
+
 </template>
 
 <script>
@@ -96,11 +96,11 @@
       const config = {
         color: 'F2, F6, FC', // 线条颜色
         pointColor: '255, 155, 0', // 节点颜色
-        opacity: 0.3, // 线条透明度
+        opacity: 0.5, // 线条透明度
         count: 120, // 线条数量
         zIndex: 199 // 画面层级
       };
-      const cn = new CanvasNest(container, config);
+      const cn = new CanvasNest(background, config);
       if (!this.$route.query.code) {
         localStorage.setItem("code", this.$route.query.code)
       }
@@ -122,11 +122,11 @@
     top: 20%;
     left: 35%;
     right: 35%;
+    z-index: 2;
   }
 
   .login-title {
     text-align: center;
-    margin: 0 auto 40px auto;
     color: #303133;
   }
 
@@ -143,6 +143,7 @@
     position: absolute;
     left: 50%;
     top: 5%;
+    z-index: 2;
   }
 
   .image:hover {
@@ -163,7 +164,11 @@
     cursor: pointer;
   }
 
-  .el-container {
+  .background-style {
+    width: 100%;
     height: 100%;
+    position: absolute;
+    top: 0;
+    z-index: 1;
   }
 </style>
