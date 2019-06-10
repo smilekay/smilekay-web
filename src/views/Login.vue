@@ -37,6 +37,7 @@
 
 <script>
   import CanvasNest from 'canvas-nest.js';
+
   export default {
     name: "Login",
     data() {
@@ -72,9 +73,9 @@
               this.$router.push("/mall");
             }).catch(error => {
               if (error) {
-                console.log('登录失败 error:' + error.message);
+                this.$message.error(error.message);
               } else {
-                console.log('连接服务器失败');
+                this.$message.error('连接服务器失败,请稍后重试！');
               }
             })
           } else {
@@ -170,5 +171,6 @@
     position: absolute;
     top: 0;
     z-index: 1;
+    background-image: url("../assets/background.png");
   }
 </style>

@@ -22,6 +22,7 @@
 </template>
 
 <script>
+
   export default {
     name: "Main",
     methods: {
@@ -32,7 +33,7 @@
           localStorage.clear();
           this.$router.push('/logout');
         }).catch(()=>{
-          console.log('注销失败');
+          this.$message.error('注销失败,请稍后重试！');
         })
       },
       onSelect(path){
