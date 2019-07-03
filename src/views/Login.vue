@@ -22,12 +22,12 @@
       </el-form-item>
       <el-form-item>
         <!--QQ登录-->
-        <img class="icon" src="../assets/icon_qq.png" @click="onQQLogin"/>
+        <svg aria-hidden="true"><use xlink:href="#el-icon-smileqq" @click="onQQLogin"/> </svg>
 
         <!--微博登录-->
         <a
-          href="https://api.weibo.com/oauth2/authorize?client_id=4097946870&response_type=code&redirect_uri=http://www.smilekay.com/login">
-          <img class="icon" src="../assets/icon_weibo.png"/>
+          href="https://api.weibo.com/oauth2/authorize?client_id=4097946870&response_type=code&redirect_uri=http://www.smilekay.com/callback">
+          <svg aria-hidden="true"><use xlink:href="#el-icon-smileweibo"/> </svg>
         </a>
       </el-form-item>
     </el-form>
@@ -37,6 +37,7 @@
 
 <script>
   import CanvasNest from 'canvas-nest.js';
+  import '../assets/icon/iconfont'
 
   export default {
     name: "Login",
@@ -89,7 +90,7 @@
       onQQLogin() {
         QC.Login.showPopup({
           appId: "101571153",
-          redirectURI: "http://www.smilekay.com/login"
+          redirectURI: "http://www.smilekay.com/callback"
         });
       }
     },
@@ -101,10 +102,7 @@
         count: 120, // 线条数量
         zIndex: 199 // 画面层级
       };
-      const cn = new CanvasNest(background, config);
-      if (!this.$route.query.code) {
-        localStorage.setItem("code", this.$route.query.code)
-      }
+      new CanvasNest(background, config);
     }
   }
 </script>
@@ -172,5 +170,18 @@
     top: 0;
     z-index: 1;
     background-image: url("../assets/background.png");
+  }
+
+  svg{
+    height: 20px;
+    width: 20px;
+    border-radius: 10px;
+    transition: all 0.5s;
+    margin: 0 20px 0 20px;
+  }
+
+  svg:hover{
+    transform: scale(1.2);
+    cursor: pointer;
   }
 </style>

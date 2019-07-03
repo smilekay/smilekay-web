@@ -10,11 +10,17 @@ import './assets/icon/iconfont.css'
 import Vuex from 'vuex'
 import store from './store'
 import {get, post} from './utils/http'
+import utils from './utils/utils'
+import VueVideoPlayer from 'vue-video-player'
+
+require('video.js/dist/video-js.css')
+require('vue-video-player/src/custom-theme.css')
+import 'videojs-contrib-hls'
 
 router.beforeEach((to, from, next) => {
   let token = localStorage.getItem('token');
   if (!token) {
-    if (to.path != '/register' && to.path != '/login') {
+    if (to.path != '/register' && to.path != '/login' && to.path != '/callback') {
       next({path: '/login'});
     }
   } else {
@@ -34,8 +40,10 @@ router.beforeEach((to, from, next) => {
 Vue.use(VueRouter);
 Vue.use(ElementUI);
 Vue.use(Vuex);
+Vue.use(VueVideoPlayer);
 Vue.prototype.$get = get;
 Vue.prototype.$post = post;
+Vue.prototype.$utils = utils;
 
 new Vue({
   el: '#app',

@@ -87,9 +87,6 @@
               loginCode: this.regForm.username,
               password: this.regForm.pass
             }
-            const loginParams = new URLSearchParams();
-            loginParams.append('loginCode', this.regForm.username);
-            loginParams.append('password', this.regForm.pass);
             this.$post('/register', params1
             ).then(function (response) {
               console.log(response.message);
@@ -97,7 +94,7 @@
               ).then(function (res) {
                 console.log(res.message);
                 localStorage.setItem('token', res.data)
-                self.$router.push('/callback')
+                self.$router.push('/mall')
               }).catch(function (error) {
                 if (error){
                   console.log('登录失败 error:' + error.message);
