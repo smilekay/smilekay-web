@@ -4,8 +4,8 @@
       <el-menu default-active="1" mode="horizontal" background-color="#545c64" text-color="#fff"
                active-text-color="#ffd04b">
         <el-menu-item index="1" style="font-size: 15px" @click="onSelect('/mall')">在线商城</el-menu-item>
-        <el-menu-item index="2" style="font-size: 15px" @click="onSelect('/mall2')">坚果 Pro 2S</el-menu-item>
-        <el-menu-item index="3" style="font-size: 15px" @click="onSelect('/mall3')">坚果 R1</el-menu-item>
+        <el-menu-item index="2" style="font-size: 15px">坚果 Pro 2S</el-menu-item>
+        <el-menu-item index="3" style="font-size: 15px" @click="onSelect('/videos')">视频</el-menu-item>
         <el-menu-item index="4" style="font-size: 15px">应用</el-menu-item>
         <el-menu-item index="5" style="font-size: 15px">论坛</el-menu-item>
         <el-menu-item index="6" style="font-size: 15px" @click="onSelect('/news')">资讯</el-menu-item>
@@ -87,7 +87,7 @@
       },
       onAttend() {
         let token = localStorage.getItem('token')
-        this.$get('/attend', {token: token}).then(response => {
+        this.$get('/user/sign', {token: token}).then(response => {
           this.$message.success(response.message + " 积分+1")
           this.check = true;
           this.integral += 1
@@ -98,7 +98,7 @@
     },
     mounted: function () {
       let token = localStorage.getItem('token')
-      this.$get('/get_user_info', {token: token}).then(response => {
+      this.$get('/user/get_user_info', {token: token}).then(response => {
         this.username = response.data.username
         this.check = response.data.check
         if (response.data.avatar != null) {
@@ -132,7 +132,14 @@
     z-index: 2;
   }
 
+  .el-main {
+    padding-bottom: 60px;
+  }
+
   .el-footer {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
     color: #333;
     text-align: center;
     line-height: 60px;

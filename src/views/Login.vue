@@ -110,7 +110,7 @@
 <style lang="scss" scoped>
   .login-box {
     border: 1px solid #DCDFE6;
-    width: 30%;
+    width: 350px;
     padding: 15px 35px 15px 0;
     border-radius: 5px;
     -webkit-border-radius: 5px;
