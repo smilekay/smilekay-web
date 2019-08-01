@@ -57,13 +57,19 @@
         this.$get(url, {tJson: {status: 0}}).then(response => {
           this.pageInfo.data = response.data
           this.pageInfo.currentTotal = response.cursor.total
-        }).catch(() => {
-          this.$message.error('获取视频信息失败,请稍后重试！');
+        }).catch(error => {
+          if (error.data.data == 1) {
+            this.$message.error('亲，登陆后可观看视频哦！');
+            history.go(-2);
+            // this.$router.push({path: '/login', query: {portal: error.headers.redirect_url}})
+          } else {
+            this.$message.error('获取视频信息失败,请稍后重试！');
+          }
         })
       }
     },
     mounted: function () {
-      this.pageInfo.currentPage = this.$route.query.page === undefined ? 1 : this.$route.query.page
+      this.pageInfo.currentPage = undefined === this.$route.query.page ? 1 : this.$route.query.page
       this.getData(this.pageInfo.currentPage)
     }
   }

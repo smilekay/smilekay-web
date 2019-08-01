@@ -1,9 +1,9 @@
 <template>
   <div>
     <el-form id="background" class="background-style">
-
     </el-form>
-    <img class="image" src="../assets/asd.jpg"/>
+    <a href="/mall"> <svg aria-hidden="true" class="home"><use xlink:href="#el-icon-smileziyuan"/> </svg></a>
+    <svg aria-hidden="true" class="icon-style"><use xlink:href="#el-icon-smilezhangyu1"/> </svg>
     <el-form ref="loginForm" :model="form" :rules="rules" label-width="80px" class="login-box">
       <h3 class="login-title">欢迎登录</h3>
       <el-form-item prop="username">
@@ -13,7 +13,7 @@
       </el-form-item>
       <el-form-item prop="password">
         <el-input type="password" placeholder="请输入密码" v-model="form.password">
-          <i slot="prepend" class="iconfont el-icon-smilemima"/>
+          <i slot="prepend" class="iconfont el-icon-smilemima"></i>
         </el-input>
       </el-form-item>
       <el-form-item>
@@ -69,12 +69,11 @@
           if (valid) {
             this.$post('/login', params
             ).then(res => {
-              console.log(res.message);
-              localStorage.setItem('token', res.data)
+              //localStorage.setItem('token', res.data)
               this.$router.push("/mall");
             }).catch(error => {
-              if (error) {
-                this.$message.error(error.message);
+              if (error.data) {
+                this.$message.error(error.data.message);
               } else {
                 this.$message.error('连接服务器失败,请稍后重试！');
               }
@@ -133,19 +132,35 @@
     margin: 0 30px 0 30px;
   }
 
-  .image {
+  .home{
+    height: 30px;
+    width: 30px;
+    border-radius: 30px;
+    transition: all 1s;
+    position: absolute;
+    left: 5%;
+    top: 5%;
+    z-index: 2;
+  }
+
+  .home:hover{
+    transform: scale(1.2);
+    cursor: pointer;
+  }
+
+  .icon-style {
     height: 60px;
     width: 60px;
     opacity: 0.7;
     border-radius: 30px;
     transition: all 1s;
     position: absolute;
-    left: 50%;
+    left: 45%;
     top: 5%;
     z-index: 2;
   }
 
-  .image:hover {
+  .icon-style:hover {
     opacity: 1;
     transform: scale(1.5) rotate(360deg);
   }

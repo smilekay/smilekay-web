@@ -8,7 +8,7 @@ axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded
 axios.interceptors.request.use(config => {
   let token = localStorage.getItem('token')
   if (token) {
-    config.headers.Authorization = token
+    config.headers.token = token
   }
   if (config.method === 'post') {
     config.data = qs.stringify(config.data)
@@ -18,17 +18,17 @@ axios.interceptors.request.use(config => {
   return Promise.reject(error);
 })
 
-axios.interceptors.response.use(response => {
+axios.interceptors.response.use(function (response) {
   if (response.data.result === 'ok') {
+    console.log("cookie = " + document.cookie)
+    if (response.headers.token) {
+      localStorage.setItem('token', response.headers.token)
+    }
     return Promise.resolve(response);
   } else {
-    if (response.data.data === 401) {
-      localStorage.removeItem('token')
-      this.$router.push('/login')
-    }
     return Promise.reject(response);
   }
-}, error => {
+}, function (error) {
   return Promise.reject(error)
 })
 
@@ -39,7 +39,7 @@ export function get(url, params) {
     }).then(res => {
       resolve(res.data)
     }).catch(err => {
-      reject(err.data)
+      reject(err)
     })
   });
 }
@@ -50,7 +50,7 @@ export function post(url, params) {
     ).then(res => {
       resolve(res.data);
     }).catch(err => {
-      reject(err.data)
+      reject(err)
     })
   });
 }

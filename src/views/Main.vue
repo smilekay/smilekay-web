@@ -9,7 +9,7 @@
         <el-menu-item index="4" style="font-size: 15px">应用</el-menu-item>
         <el-menu-item index="5" style="font-size: 15px">论坛</el-menu-item>
         <el-menu-item index="6" style="font-size: 15px" @click="onSelect('/news')">资讯</el-menu-item>
-        <el-submenu index="7" style="position: absolute;right: 20px">
+        <el-submenu index="7" style="position: absolute;right: 20px" v-if="islogin">
           <template slot="title"><img :src="avatar"/></template>
           <el-menu-item index="2-0" style="height: 120px">
             <el-row>
@@ -47,6 +47,12 @@
           <el-menu-item index="2-3" @click="onQuit"><i class="iconfont el-icon-smiledingbudaohang-zhangh"/> 退出
           </el-menu-item>
         </el-submenu>
+        <el-menu-item index="8" style="position: absolute;right: 20px" @click="onSelect('/login')" v-else>
+          <svg aria-hidden="true" class="home">
+            <use xlink:href="#el-icon-smiledenglu"/>
+          </svg>
+          登陆
+        </el-menu-item>
       </el-menu>
     </el-header>
     <el-main>
