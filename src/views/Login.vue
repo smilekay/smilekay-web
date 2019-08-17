@@ -1,9 +1,9 @@
 <template>
   <div>
-    <el-form id="background" class="background-style">
+    <el-form id="background" class="login-background">
     </el-form>
-    <a href="/mall"> <svg aria-hidden="true" class="home"><use xlink:href="#el-icon-smileziyuan"/> </svg></a>
-    <svg aria-hidden="true" class="icon-style"><use xlink:href="#el-icon-smilezhangyu1"/> </svg>
+    <a href="/mall"> <svg aria-hidden="true" class="login-to-home"><use xlink:href="#el-icon-smileziyuan"/> </svg></a>
+    <svg aria-hidden="true" class="login-icon"><use xlink:href="#el-icon-smilezhangyu1"/> </svg>
     <el-form ref="loginForm" :model="form" :rules="rules" label-width="80px" class="login-box">
       <h3 class="login-title">欢迎登录</h3>
       <el-form-item prop="username">
@@ -22,12 +22,12 @@
       </el-form-item>
       <el-form-item>
         <!--QQ登录-->
-        <svg aria-hidden="true"><use xlink:href="#el-icon-smileqq" @click="onQQLogin"/> </svg>
+        <svg class="login-svg" aria-hidden="true"><use xlink:href="#el-icon-smileqq" @click="onQQLogin"/> </svg>
 
         <!--微博登录-->
         <a
           href="https://api.weibo.com/oauth2/authorize?client_id=4097946870&response_type=code&redirect_uri=http://www.smilekay.com/callback">
-          <svg aria-hidden="true"><use xlink:href="#el-icon-smileweibo"/> </svg>
+          <svg class="login-svg" aria-hidden="true"><use xlink:href="#el-icon-smileweibo"/> </svg>
         </a>
       </el-form-item>
     </el-form>
@@ -69,7 +69,8 @@
           if (valid) {
             this.$post('/login', params
             ).then(res => {
-              //localStorage.setItem('token', res.data)
+              console.log(res.data)
+              this.$store.dispatch('asyncUpdateUser', res.data)
               this.$router.push("/mall");
             }).catch(error => {
               if (error.data) {
@@ -94,109 +95,20 @@
       }
     },
     mounted: function () {
+      let user = this.$store.getters.getUser
+      let str = sessionStorage.getItem('vuex');
+      if (str != null && user != null) {
+        this.$message.info('亲爱的' + user.username + ',您已经登录过了哦！');
+        this.$router.push({path: '/mall'})
+      }
       const config = {
         color: 'F2, F6, FC', // 线条颜色
         pointColor: '255, 155, 0', // 节点颜色
-        opacity: 0.5, // 线条透明度
-        count: 120, // 线条数量
+        opacity: 0.8, // 线条透明度
+        count: 199, // 线条数量
         zIndex: 199 // 画面层级
       };
       new CanvasNest(background, config);
     }
   }
 </script>
-
-<style lang="scss" scoped>
-  .login-box {
-    border: 1px solid #DCDFE6;
-    width: 350px;
-    padding: 15px 35px 15px 0;
-    border-radius: 5px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    box-shadow: 0 0 25px #909399;
-    background: azure;
-    position: absolute;
-    top: 20%;
-    left: 35%;
-    right: 35%;
-    z-index: 2;
-  }
-
-  .login-title {
-    text-align: center;
-    color: #303133;
-  }
-
-  .login-btn {
-    margin: 0 30px 0 30px;
-  }
-
-  .home{
-    height: 30px;
-    width: 30px;
-    border-radius: 30px;
-    transition: all 1s;
-    position: absolute;
-    left: 5%;
-    top: 5%;
-    z-index: 2;
-  }
-
-  .home:hover{
-    transform: scale(1.2);
-    cursor: pointer;
-  }
-
-  .icon-style {
-    height: 60px;
-    width: 60px;
-    opacity: 0.7;
-    border-radius: 30px;
-    transition: all 1s;
-    position: absolute;
-    left: 45%;
-    top: 5%;
-    z-index: 2;
-  }
-
-  .icon-style:hover {
-    opacity: 1;
-    transform: scale(1.5) rotate(360deg);
-  }
-
-  .icon {
-    height: 20px;
-    width: 20px;
-    border-radius: 10px;
-    transition: all 0.5s;
-    margin: 0 20px 0 20px;
-  }
-
-  .icon:hover {
-    transform: scale(1.2);
-    cursor: pointer;
-  }
-
-  .background-style {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    z-index: 1;
-    background-image: url("../assets/background.png");
-  }
-
-  svg{
-    height: 20px;
-    width: 20px;
-    border-radius: 10px;
-    transition: all 0.5s;
-    margin: 0 20px 0 20px;
-  }
-
-  svg:hover{
-    transform: scale(1.2);
-    cursor: pointer;
-  }
-</style>

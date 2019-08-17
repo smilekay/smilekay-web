@@ -1,5 +1,7 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+const Vue = require('vue')
+const Vuex = require('vuex')
+import createPersistedState from "vuex-persistedstate"
+
 Vue.use(Vuex);
 
 // 全局 state 对象，用于保存所有组件的公共数据
@@ -7,7 +9,22 @@ const state = {
   // 定义一个 user 对象
   // 在组件中是通过 this.$store.state.user 来获取
   user: {
-    username: ''
+    userName: function () {
+      let u = JSON.parse(sessionStorage.getItem('vuex')).user
+      return u == null ? '' : u.userName
+    },
+    avatar: function () {
+      let u = JSON.parse(sessionStorage.getItem('vuex')).user
+      return u == null ? '' : u.avatar
+    },
+    check: function () {
+      let u = JSON.parse(sessionStorage.getItem('vuex')).user
+      return u == null ? false : u.check
+    },
+    integral: function () {
+      let u = JSON.parse(sessionStorage.getItem('vuex')).user
+      return u == null ? 0 : u.integral
+    }
   }
 };
 
@@ -39,5 +56,10 @@ export default new Vuex.Store({
   state,
   getters,
   mutations,
-  actions
+  actions,
+  plugins: [
+    createPersistedState({
+      storage: window.sessionStorage
+    })
+  ]
 });

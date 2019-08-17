@@ -1,36 +1,50 @@
 <template>
-  <div class="video-box-style">
+  <div class="video-box">
+    <el-page-header class="media-header" @back="goBack" content="video.title">
+    </el-page-header>
     <el-row>
-      <el-col :span="20">
-        <h2 class="h2">{{video.title}}</h2>
-        <video-player class="video-player vjs-custom-skin" ref="videoPlayer" :playsinline="true"
-                      :options="playerOptions"></video-player>
+      <el-col :span="14" :offset="3">
+        <div class="play-box">
+          <h2 class="media-name">{{video.title}}</h2>
+          <video-player class="video-player vjs-custom-skin" ref="videoPlayer" :playsinline="true"
+                        :options="playerOptions"
+                        @play="onPlayerPlay($event)"
+                        @pause="onPlayerPause($event)"/>
+          <div class="unlock-msg" v-if="pause">
+            <p>
+              加入会员，观看完整视频
+            </p>
+          </div>
+        </div>
       </el-col>
-      <el-col :span="4">
-        <div style="background: #ffffff;z-index: 3"/>
+      <el-col :span="7">
+        <div class="video-plan">
+          <div class="video-plan-name">看完整版并解锁全站視頻</div>
+        </div>
       </el-col>
     </el-row>
-    <el-row :gutter="20">
+    <el-row>
       <el-col :span="20">
-        <h5 class="h5">
+        <h5 class="media-h5">
           <h5>播放次数：{{video.playCount}}</h5>
           <h5>主演：
-            <a href="">{{video.actor}}</a>
+            <a class="media-a" href="">{{video.actor}}</a>
           </h5>
-          <h5>类型：
-            <a href="">{{video.tag}}</a>
+          <h5>标签：
+            <a class="media-a" href="">{{video.tag}}</a>
           </h5>
-          <h5>上传者：{{video.createBy}}</h5>
           <h5>上传时间：{{video.createDate}}</h5>
-          <div style="background: #f0f7ff;height: 1px;width: 95%;position: absolute;left: 2.5%"/>
         </h5>
       </el-col>
     </el-row>
+    <div class="media-similar">
+      <h2>相关视频</h2>
+    </div>
     <el-row>
-      <ul>
+      <ul class="media-similar-list">
         <li v-for="v in similar" @click="onItemClick(v)">
-          <img v-if="v.name!=video.name" :src="v.cover"/>
-          <h4 v-if="v.name!=video.name">{{v.title}}</h4>
+          <img class="media-img" :src="v.cover"/>
+          <h4 class="media-h4">{{v.title}}</h4>
         </li>
       </ul>
     </el-row>
@@ -54,6 +68,7 @@
           createBy: '',
           createDate: ''
         },
+        pause: false,
         similar: [],
         playerOptions: {
           playbackRates: [0.7, 1.0, 1.5, 2.0], //播放速度
@@ -88,6 +103,16 @@
       onItemClick: function (v) {
         this.$router.push({path: '/video', query: {name: v.name}})
         this.$router.go(0)
+      },
+      onPlayerPlay(player) {
+        this.pause = false;
+      },
+      onPlayerPause(player) {
+        this.pause = true;
+      },
+      goBack() {
+        let page = sessionStorage.getItem("page");
+        this.$router.push({path: '/videos', query: {page: page}});
       }
     },
     mounted: function () {
@@ -96,18 +121,26 @@
       this.video.src = "https://haokan-sk.oss-cn-shanghai.aliyuncs.com/prev/" + name + "/sk.m3u8"
       this.$refs.videoPlayer.player.src(this.video.src)
       this.$get('/video', {name: name}).then(response => {
-        this.video.title = response.data.title
-        this.video.actor = response.data.actor
-        this.video.code = response.data.code
-        this.video.cover = response.data.cover
-        this.video.createBy = response.data.createBy
-        this.video.createDate = response.createDate
-        this.video.tag = response.data.tag
-        this.video.playCount = response.data.playCount
+        console.log('video: ' + response.data.createDate);
+        const video = response.data
+        this.video.title = video.title
+        this.video.actor = video.actor
+        this.video.code = video.code
+        this.video.cover = video.cover
+        this.video.createBy = video.createBy
+        this.video.createDate = video.createDate.substr(0, 10)
+        this.video.tag = video.tag
+        this.video.playCount = video.playCount
         this.$refs.videoPlayer.player.poster = this.video.cover
 
         let url = '/video/page/1/8'
         this.$get(url, {tJson: {tag: this.video.tag, status: 0}}).then(response => {
+          response.data.forEach(function (val) {
+            if (val.title == self.video.title) {
+              let i = response.data.indexOf(val)
+              response.data.splice(i, 1)
+            }
+          })
           self.similar = response.data
         })
       }).catch(() => {
@@ -116,61 +149,3 @@
     }
   }
 </script>
-
-<style scoped>
-  .video-box-style {
-    width: 100%;
-    height: 100%;
-    background-color: #454545;
-    color: #333;
-    text-align: center;
-    position: fixed;
-    overflow-y: scroll;
-  }
-
-  .video-player {
-    width: 70%;
-    margin-left: 15%;
-    margin-top: 20px;
-  }
-
-  .h2 {
-    text-align: left;
-    width: 70%;
-    margin-left: 15%;
-    color: #f0f7ff;
-  }
-
-  .h5 {
-    text-align: left;
-    width: 70%;
-    margin-left: 15%;
-    color: #f0f7ff;
-  }
-
-  a {
-    color: #f0f7ff;
-  }
-
-  ul {
-    display: flex;
-    flex-wrap: wrap;
-    margin-top: 40px;
-  }
-
-  li {
-    list-style: none;
-    margin: 25px;
-    width: 20%;
-  }
-
-  img {
-    width: 100%;
-    cursor: pointer;
-  }
-
-  h4 {
-    color: #ecd1bb;
-    cursor: pointer;
-  }
-</style>

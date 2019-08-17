@@ -17,12 +17,12 @@
       let access_token = this.$utils.getUrlKey("#access_token");
       if (code != null) {
         this.$get('/login/sina', {code: code}).then(response => {
-          localStorage.setItem('token', response.data)
+          this.$store.dispatch('asyncUpdateUser', response.data)
           this.$router.push("/mall");
         })
       } else if (access_token != null) {
         this.$get('/login/qq', {accessToken: access_token}).then(response => {
-          localStorage.setItem('token', response.data)
+          this.$store.dispatch('asyncUpdateUser', response.data)
           this.$router.push("/mall");
         })
       } else {

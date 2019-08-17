@@ -4,12 +4,10 @@
       <el-menu default-active="1" mode="horizontal" background-color="#545c64" text-color="#fff"
                active-text-color="#ffd04b">
         <el-menu-item index="1" style="font-size: 15px" @click="onSelect('/mall')">在线商城</el-menu-item>
-        <el-menu-item index="2" style="font-size: 15px">坚果 Pro 2S</el-menu-item>
-        <el-menu-item index="3" style="font-size: 15px" @click="onSelect('/videos')">视频</el-menu-item>
-        <el-menu-item index="4" style="font-size: 15px">应用</el-menu-item>
-        <el-menu-item index="5" style="font-size: 15px">论坛</el-menu-item>
-        <el-menu-item index="6" style="font-size: 15px" @click="onSelect('/news')">资讯</el-menu-item>
-        <el-submenu index="7" style="position: absolute;right: 20px" v-if="islogin">
+        <el-menu-item index="2" style="font-size: 15px" @click="onSelect('/videos')">视频</el-menu-item>
+        <el-menu-item index="3" style="font-size: 15px">论坛</el-menu-item>
+        <el-menu-item index="4" style="font-size: 15px" @click="onSelect('/news')">资讯</el-menu-item>
+        <el-submenu index="5" style="position: absolute;right: 20px" v-if="islogin">
           <template slot="title"><img :src="avatar"/></template>
           <el-menu-item index="2-0" style="height: 120px">
             <el-row>
@@ -47,7 +45,7 @@
           <el-menu-item index="2-3" @click="onQuit"><i class="iconfont el-icon-smiledingbudaohang-zhangh"/> 退出
           </el-menu-item>
         </el-submenu>
-        <el-menu-item index="8" style="position: absolute;right: 20px" @click="onSelect('/login')" v-else>
+        <el-menu-item index="6" style="position: absolute;right: 20px" @click="onSelect('/login')" v-else>
           <svg aria-hidden="true" class="home">
             <use xlink:href="#el-icon-smiledenglu"/>
           </svg>
@@ -61,29 +59,32 @@
     <el-footer>
       Copyright ©2019 smilekay加油
     </el-footer>
+    <BackToTop />
   </el-container>
 </template>
 
 <script>
   import '../assets/icon/iconfont'
+  import BackToTop from "../components/BackToTop";
 
   export default {
     name: "Main",
+    components: {BackToTop},
     data() {
       return {
         username: '',
         check: false,
         avatar: 'http://www.smilekay.com/poster/icon.png',
-        integral: 0
+        integral: 0,
+        islogin: false
       }
     },
     methods: {
       onQuit() {
-        let token = localStorage.getItem('token')
-        this.$get('/logout', {token: token}).then(response => {
+        this.$get('/logout').then(response => {
           console.log(response.message);
-          localStorage.clear();
-          this.$router.push('/logout');
+          this.$store.dispatch('asyncUpdateUser', null)
+          this.$router.push('/login');
         }).catch(() => {
           this.$message.error('注销失败,请稍后重试！');
         })
@@ -92,28 +93,43 @@
         this.$router.push(path);
       },
       onAttend() {
-        let token = localStorage.getItem('token')
-        this.$get('/user/sign', {token: token}).then(response => {
+        this.$get('/user/sign').then(response => {
           this.$message.success(response.message + " 积分+1")
           this.check = true;
           this.integral += 1
+          let user = this.$store.getters.getUser
+          user.check = this.check
+          user.integral = this.integral
+          this.$store.dispatch('asyncUpdateUser', user)
         }).catch(() => {
           this.$message.error('签到失败,请稍后重试！');
         })
       }
     },
     mounted: function () {
-      let token = localStorage.getItem('token')
-      this.$get('/user/get_user_info', {token: token}).then(response => {
-        this.username = response.data.username
-        this.check = response.data.check
-        if (response.data.avatar != null) {
-          this.avatar = response.data.avatar
-        }
-        this.integral = response.data.integral
-      }).catch(() => {
-        this.$message.error('获取用户信息失败,请稍后重试！');
-      })
+      let user = this.$store.getters.getUser
+      let str = sessionStorage.getItem('vuex');
+      if (str != null && user != null) {
+        this.islogin = true;
+        this.username = user.userName;
+        this.check = user.check;
+        this.avatar = user.avatar;
+        this.integral = user.integral;
+      } else {
+        this.$get('/user/get_user_info').then(response => {
+          console.log('get_user_info user: ' + response.data.userName);
+          this.islogin = true
+          this.username = response.data.userName
+          this.check = response.data.check
+          if (response.data.avatar != null) {
+            this.avatar = response.data.avatar
+          }
+          this.integral = response.data.integral
+          this.$store.dispatch('asyncUpdateUser', response.data)
+        }).catch(() => {
+          console.log('用户未登录')
+        })
+      }
     }
   }
 </script>
