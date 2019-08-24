@@ -3,9 +3,9 @@
     <el-header>
       <el-menu default-active="1" mode="horizontal" background-color="#545c64" text-color="#fff"
                active-text-color="#ffd04b">
-        <el-menu-item index="1" style="font-size: 15px" @click="onSelect('/mall')">在线商城</el-menu-item>
+        <el-menu-item index="1" style="font-size: 15px" @click="onSelect('/mall')">首页</el-menu-item>
         <el-menu-item index="2" style="font-size: 15px" @click="onSelect('/videos')">视频</el-menu-item>
-        <el-menu-item index="3" style="font-size: 15px">论坛</el-menu-item>
+        <el-menu-item index="3" style="font-size: 15px" @click="onSelect('/forum')">论坛</el-menu-item>
         <el-menu-item index="4" style="font-size: 15px" @click="onSelect('/news')">资讯</el-menu-item>
         <el-submenu index="5" style="position: absolute;right: 20px" v-if="islogin">
           <template slot="title"><img :src="avatar"/></template>
@@ -56,9 +56,6 @@
     <el-main>
       <router-view/>
     </el-main>
-    <el-footer>
-      Copyright ©2019 smilekay加油
-    </el-footer>
     <BackToTop />
   </el-container>
 </template>
@@ -155,16 +152,8 @@
   }
 
   .el-main {
-    padding-bottom: 60px;
-  }
-
-  .el-footer {
-    width: 100%;
-    position: absolute;
-    bottom: 0;
-    color: #333;
-    text-align: center;
-    line-height: 60px;
+    overflow: unset;
+    padding: 0px;
   }
 
   .el-container {

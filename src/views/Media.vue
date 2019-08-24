@@ -1,11 +1,15 @@
 <template>
   <div class="video-box">
-    <el-page-header class="media-header" @back="goBack" content="video.title">
+    <el-page-header class="media-header" @back="goBack">
     </el-page-header>
     <el-row>
       <el-col :span="14" :offset="3">
+        <h2 class="media-name">huhu</h2>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col :span="14" :offset="3">
         <div class="play-box">
-          <h2 class="media-name">{{video.title}}</h2>
           <video-player class="video-player vjs-custom-skin" ref="videoPlayer" :playsinline="true"
                         :options="playerOptions"
                         @play="onPlayerPlay($event)"

@@ -11,6 +11,7 @@ import Help from '@/views/Help'
 import Contact from '@/views/Contact'
 import AddVideo from '@/views/AddVideo'
 import Videos from '@/views/Videos'
+import Forum from "../views/Forum";
 
 Vue.use(Router)
 
@@ -25,6 +26,7 @@ export default new Router({
         {path: '/mall', name: 'Mall', component: Mall},
         {path: '/videos', name: 'Videos', component: Videos},
         {path: '/news', name: 'News', component: News},
+        {path: '/forum', name: 'Forum', component: Forum},
         {
           path: '/help', name: 'Help', component: Help, children: [
             {path: '/contact', name: 'Contact', component: Contact}
