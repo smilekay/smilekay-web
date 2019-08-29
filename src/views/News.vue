@@ -20,7 +20,10 @@
         </el-menu>
       </el-aside>
       <el-main class="news-el-main">
-        <ul>
+        <ul v-loading="loading"
+            element-loading-text="拼命加载中"
+            element-loading-spinner="el-icon-loading"
+            element-loading-background="rgba(0, 0, 0, 0.8)">
           <li v-for="n in data">
             <a :href="n.url">
               <span class="news-title">{{n.title}}</span>
@@ -47,98 +50,8 @@
     components: {BackToTop},
     data() {
       return {
-        data: [
-          {
-            channel: '头条',
-            title: '视频-《锦绣未央》被判抄袭 作者周静赔偿13万元',
-            pic: 'https://p.ivideo.sina.com.cn/video/289/148/758/289148758.jpg',
-            url: 'https://video.sina.cn/news/2019-05-08/detail-ihvhiews0562300.d.html?vt=4&pos=108',
-            src: '新浪新闻',
-            category: 'video',
-            time: '2019-05-08 13:53:32'
-          },
-          {
-            channel: '头条',
-            title: '视频-《锦绣未央》被判抄袭 作者周静赔偿13万元',
-            pic: 'https://p.ivideo.sina.com.cn/video/289/148/758/289148758.jpg',
-            url: 'https://video.sina.cn/news/2019-05-08/detail-ihvhiews0562300.d.html?vt=4&pos=108',
-            src: '新浪新闻',
-            category: 'video',
-            time: '2019-05-08 13:53:32'
-          },
-          {
-            channel: '头条',
-            title: '视频-《锦绣未央》被判抄袭 作者周静赔偿13万元',
-            pic: 'https://p.ivideo.sina.com.cn/video/289/148/758/289148758.jpg',
-            url: 'https://video.sina.cn/news/2019-05-08/detail-ihvhiews0562300.d.html?vt=4&pos=108',
-            src: '新浪新闻',
-            category: 'video',
-            time: '2019-05-08 13:53:32'
-          },
-          {
-            channel: '头条',
-            title: '视频-《锦绣未央》被判抄袭 作者周静赔偿13万元',
-            pic: 'https://p.ivideo.sina.com.cn/video/289/148/758/289148758.jpg',
-            url: 'https://video.sina.cn/news/2019-05-08/detail-ihvhiews0562300.d.html?vt=4&pos=108',
-            src: '新浪新闻',
-            category: 'video',
-            time: '2019-05-08 13:53:32'
-          },
-          {
-            channel: '头条',
-            title: '视频-《锦绣未央》被判抄袭 作者周静赔偿13万元',
-            pic: 'https://p.ivideo.sina.com.cn/video/289/148/758/289148758.jpg',
-            url: 'https://video.sina.cn/news/2019-05-08/detail-ihvhiews0562300.d.html?vt=4&pos=108',
-            src: '新浪新闻',
-            category: 'video',
-            time: '2019-05-08 13:53:32'
-          },
-          {
-            channel: '头条',
-            title: '视频-《锦绣未央》被判抄袭 作者周静赔偿13万元',
-            pic: 'https://p.ivideo.sina.com.cn/video/289/148/758/289148758.jpg',
-            url: 'https://video.sina.cn/news/2019-05-08/detail-ihvhiews0562300.d.html?vt=4&pos=108',
-            src: '新浪新闻',
-            category: 'video',
-            time: '2019-05-08 13:53:32'
-          },
-          {
-            channel: '头条',
-            title: '视频-《锦绣未央》被判抄袭 作者周静赔偿13万元',
-            pic: 'https://p.ivideo.sina.com.cn/video/289/148/758/289148758.jpg',
-            url: 'https://video.sina.cn/news/2019-05-08/detail-ihvhiews0562300.d.html?vt=4&pos=108',
-            src: '新浪新闻',
-            category: 'video',
-            time: '2019-05-08 13:53:32'
-          },
-          {
-            channel: '头条',
-            title: '视频-《锦绣未央》被判抄袭 作者周静赔偿13万元',
-            pic: 'https://p.ivideo.sina.com.cn/video/289/148/758/289148758.jpg',
-            url: 'https://video.sina.cn/news/2019-05-08/detail-ihvhiews0562300.d.html?vt=4&pos=108',
-            src: '新浪新闻',
-            category: 'video',
-            time: '2019-05-08 13:53:32'
-          },
-          {
-            channel: '头条',
-            title: '视频-《锦绣未央》被判抄袭 作者周静赔偿13万元',
-            pic: 'https://p.ivideo.sina.com.cn/video/289/148/758/289148758.jpg',
-            url: 'https://video.sina.cn/news/2019-05-08/detail-ihvhiews0562300.d.html?vt=4&pos=108',
-            src: '新浪新闻',
-            category: 'video',
-            time: '2019-05-08 13:53:32'
-          },
-          {
-            channel: '头条',
-            title: '视频-《锦绣未央》被判抄袭 作者周静赔偿13万元',
-            pic: 'https://p.ivideo.sina.com.cn/video/289/148/758/289148758.jpg',
-            url: 'https://video.sina.cn/news/2019-05-08/detail-ihvhiews0562300.d.html?vt=4&pos=108',
-            src: '新浪新闻',
-            category: 'video',
-            time: '2019-05-08 13:53:32'
-          }
-        ],
+        loading: false,
+        data: [],
         news: {
           channel: '',
           title: '',
@@ -152,6 +65,7 @@
     },
     methods: {
       selectItems(index) {
+        this.loading = true
         let channel = ''
         switch (index) {
           case '1':
@@ -198,18 +112,23 @@
             break;
         }
         this.$get("/news/get", {channel: channel}).then(response => {
+          this.loading = false
           this.data = response.data
         }).catch(() => {
           this.$message.error('获取新闻信息失败,请稍后重试！');
+          this.loading = false
         })
       }
     },
     mounted() {
-      // this.$get("/news/get", {channel: '头条'}).then(response => {
-      //   this.data = response.data
-      // }).catch(() => {
-      //   this.$message.error('获取新闻信息失败,请稍后重试！');
-      // })
+      this.loading = true
+      this.$get("/news/get", {channel: '头条'}).then(response => {
+        this.loading = false
+        this.data = response.data
+      }).catch(() => {
+        this.$message.error('获取新闻信息失败,请稍后重试！');
+        this.loading = false
+      })
     }
   }
 </script>

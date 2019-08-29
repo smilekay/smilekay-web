@@ -323,12 +323,19 @@
 }
 
 .forum-header{
-  width: 70%;
+  width: 980px;
   margin: 0 auto;
 }
 
 .forum-content {
-  width: 80%;
+  width: 980px;
+  height: fit-content;
+  margin: 0 auto;
+  background: #fff;
+}
+
+.forum-foot{
+  width: 980px;
   margin: 0 auto;
   background: #fff;
 }
@@ -336,7 +343,75 @@
 .card_banner {
   display: block;
   position: relative;
+  margin-bottom: -4px;
   overflow: hidden;
-  _zoom: 1;
+}
+
+.aside_float_bar {
+  list-style: none;
+  height: 100px;
+  position: fixed;
+  left: 50%;
+  bottom: 100px;
+  margin-left: 468px;
+  z-index: 1005;
+}
+
+.aside_float_bar_item {
+  border: 1px solid #DCDFE6;
+  box-shadow: 0 0 5px #909399;
+  background: azure;
+  padding: 3px;
+}
+
+.aside_float_bar_item:hover{
+  cursor: pointer;
+  background: #dceffe;
+}
+
+.icon {
+  width: 30px;
+  height: 30px;
+  fill: currentColor;
+  overflow: hidden;
+}
+
+@media (max-width: 1000px) {
+  .forum-header{
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .forum-content {
+    width: 100%;
+    height: fit-content;
+    margin: 0 auto;
+    background: #fff;
+  }
+
+  .forum-foot{
+    width: 100%;
+    margin: 0 auto;
+    background: #fff;
+  }
+
+  .aside_float_bar {
+    list-style: none;
+    height: 100px;
+    position: fixed;
+    left: auto;
+    right: 10px;
+    bottom: 100px;
+    margin-left: 468px;
+    z-index: 1005;
+  }
 }
 /*----forum style end----*/
+
+.quill-editor-block{
+  position: relative;
+}
+
+.quill-editor-btn{
+
+}

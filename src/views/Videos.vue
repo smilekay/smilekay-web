@@ -106,6 +106,7 @@
     list-style: none;
     margin: 2px;
     width: 24%;
+    padding: 5px 3px 0;
   }
 
   .video-list img {

@@ -17,7 +17,7 @@
     props: {
       visibilityHeight: {
         type: Number,
-        default: 600
+        default: 300
       },
       backPosition: {
         type: Number,
