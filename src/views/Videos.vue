@@ -170,24 +170,4 @@
     line-height: 1.42857143;
     font-weight: 900;
   }
-
-  .hd {
-    background: #146cc5;
-    padding: 1px 4px;
-  }
-
-  .new {
-    background: #ea5a5a;
-    padding: 1px 4px;
-  }
-
-  .mask {
-    background: #448aff;
-    padding: 1px 4px;
-  }
-
-  .captions {
-    background: #43a047;
-    padding: 1px 4px;
-  }
 </style>

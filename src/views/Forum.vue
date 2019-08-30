@@ -10,14 +10,31 @@
         <el-row>
           <el-col :span="18">
             <div class="forum-content-list">
-              <ul style="list-style: none;padding-inline-start: inherit;">
-                <li>
+              <ul class="forum-content-ul">
+                <li class="forum-content-li">
                   <el-row>
                     <el-col :span="3">
-                      <div style="background: #9d9d9d;height: 100px"></div>
+                      <span class="thread_list_rep_num" title="回复">999</span>
                     </el-col>
                     <el-col :span="21">
-                      <div style="background: #43a047;height: 100px"></div>
+                      <el-row>
+                        <el-col :span="16">
+                          <div class="left">
+                            <span class="hd">置顶</span>
+                            <el-link type="primary" href="/mall" target="_blank">【吧务】2019年8月吧友求职等相关信息专贴</el-link>
+                          </div>
+                        </el-col>
+                        <el-col :span="4">
+                          <span class="thread_list_author" title="主题作者"><i class="el-icon-s-custom"/> smilekay</span>
+                        </el-col>
+                        <el-col :span="4">
+                          <i class="el-icon-s-custom"/>
+                        </el-col>
+                      </el-row>
+                      <el-row>
+                        <el-col></el-col>
+                        <el-col></el-col>
+                      </el-row>
                     </el-col>
                   </el-row>
                 </li>
