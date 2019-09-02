@@ -347,6 +347,14 @@
   overflow: hidden;
 }
 
+.forum_input_title{
+  line-height: 16px;
+  padding: 0 5px;
+  width: 80%;
+  height: 30px;
+  font-size: 14px;
+}
+
 .aside_float_bar {
   list-style: none;
   height: 100px;
@@ -399,7 +407,7 @@
   line-height: 26px;
   margin-right: 20px;
   text-align: center;
-  background: url(../images/f_reply_bg.png) no-repeat;
+  background: url("../images/f_reply_bg.png") no-repeat;
 }
 
 .thread_list_title {
@@ -407,6 +415,32 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.thread_list_abs {
+  width: 460px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #666;
+}
+
+.thread_list_abs_img{
+  width: 100px;
+  height: 100px;
+  cursor: zoom-in;
+  cursor: -moz-zoom-in;
+  cursor: -webkit-zoom-in;
+}
+
+.thread_list_abs_img_ul{
+  list-style: none;
+  display: flex
+}
+
+.put_top_font{
+  color: white;
+  font-size: 14px;
 }
 
 .thread_list_author {
@@ -485,4 +519,8 @@
 
 .left{
   float: left;
+}
+
+.margin_small{
+  margin: 10px;
 }

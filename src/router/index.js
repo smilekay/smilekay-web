@@ -12,6 +12,8 @@ import Contact from '@/views/Contact'
 import AddVideo from '@/views/AddVideo'
 import Videos from '@/views/Videos'
 import Forum from "../views/Forum";
+import Admin from "../views/Admin";
+import MyMedia from "../views/MyMedia";
 
 Vue.use(Router)
 
@@ -31,7 +33,9 @@ export default new Router({
           path: '/help', name: 'Help', component: Help, children: [
             {path: '/contact', name: 'Contact', component: Contact}
           ]
-        }]
+        },
+        {path: '/admin', name: 'Admin', component: Admin}
+      ]
     },
     {
       path: '/login',
@@ -42,6 +46,16 @@ export default new Router({
       path: '/video',
       name: 'Media',
       component: Media
+    },
+    {
+      path: '/av',
+      name: 'MyMedia',
+      component: MyMedia
+    },
+    {
+      path: '/add',
+      name: 'AddVideo',
+      component: AddVideo
     },
     {
       path: '/register',

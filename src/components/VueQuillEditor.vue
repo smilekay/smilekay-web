@@ -3,10 +3,9 @@
     <el-row>
       <el-col :span="18">
         <el-input
-          placeholder="请输入标题"
-          @keyup.enter="onSearch"
-          v-model="input">
-        </el-input>
+          small
+          placeholder="请输入内容"
+          v-model="title"></el-input>
       </el-col>
     </el-row>
     <el-row class="ql-head">
@@ -24,7 +23,7 @@
     </el-row>
     <el-row class="ql-foot">
       <el-col :span="18">
-        <el-button type="primary">发表</el-button>
+        <el-button type="primary" @click="onPublish">发表</el-button>
       </el-col>
     </el-row>
   </div>
@@ -35,7 +34,6 @@
     name: "VueQuillEditor",
     data() {
       return {
-        content: null,
         editorOption: {
           modules: {
             toolbar: [
@@ -59,7 +57,10 @@
           readyOnly: false, //是否只读
           theme: 'snow', //主题 snow/bubble
           syntax: true, //语法检测
-        }
+        },
+        title: '',
+        content: '',
+        introduce: ''
       }
     },
     methods: {
@@ -71,16 +72,33 @@
       },
       onEditorChange(editor) {
         this.content = editor.html;
-        console.log(editor);
+        this.introduce = editor.text;
       },
+      onPublish: function () {
+        if (this.title == '') {
+          this.$message.error('标题不能为空');
+        } else if (this.content == '') {
+          this.$message.error('内容不能为空');
+        } else {
+          if (this.introduce.length > 30) {
+            this.introduce = this.introduce.substr(0, 30);
+          }
+          this.$post('/article/save', {
+            title: this.title,
+            content: this.content,
+            introduce: this.introduce
+          }).then(response => {
+            this.$message.info('发表成功！');
+          }).catch(error => {
+            this.$message.error('获取视频信息失败,请稍后重试！');
+          })
+        }
+      }
     },
     computed: {
       editor() {
         return this.$refs.myTextEditor.quillEditor;
       }
-    },
-    mounted() {
-
     }
   }
 </script>
@@ -90,11 +108,11 @@
     height: 200px;
   }
 
-  .ql-head{
+  .ql-head {
     margin: 10px 0;
   }
 
-  .ql-foot{
+  .ql-foot {
     margin-top: 80px;
   }
 </style>

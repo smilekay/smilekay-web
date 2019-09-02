@@ -121,14 +121,14 @@
       }
     },
     mounted() {
-      this.loading = true
-      this.$get("/news/get", {channel: '头条'}).then(response => {
-        this.loading = false
-        this.data = response.data
-      }).catch(() => {
-        this.$message.error('获取新闻信息失败,请稍后重试！');
-        this.loading = false
-      })
+      // this.loading = true
+      // this.$get("/news/get", {channel: '头条'}).then(response => {
+      //   this.loading = false
+      //   this.data = response.data
+      // }).catch(() => {
+      //   this.$message.error('获取新闻信息失败,请稍后重试！');
+      //   this.loading = false
+      // })
     }
   }
 </script>
