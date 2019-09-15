@@ -1,10 +1,19 @@
 <template>
   <div class="quill-editor-block">
+    <el-upload
+      class="avatar-uploader"
+      :action="serverUrl"
+      name="file"
+      :show-file-list="false"
+      list-type="picture"
+      multiple
+      :on-success="uploadSuccess">
+    </el-upload>
     <el-row>
       <el-col :span="18">
         <el-input
           small
-          placeholder="请输入内容"
+          placeholder="请输入标题"
           v-model="title"></el-input>
       </el-col>
     </el-row>
@@ -36,31 +45,28 @@
       return {
         editorOption: {
           modules: {
-            toolbar: [
-              ["bold", "italic", "underline", "strike"], // 加粗 斜体 下划线 删除线
-              ["blockquote", "code-block"], // 引用  代码块
-              [{header: 1}, {header: 2}], // 1、2 级标题
-              [{list: "ordered"}, {list: "bullet"}], // 有序、无序列表
-              [{script: "sub"}, {script: "super"}], // 上标/下标
-              [{indent: "-1"}, {indent: "+1"}], // 缩进
-              // [{'direction': 'rtl'}],                         // 文本方向
-              [{size: ["small", false, "large", "huge"]}], // 字体大小
-              [{header: [1, 2, 3, 4, 5, 6, false]}], // 标题
-              [{color: []}, {background: []}], // 字体颜色、字体背景颜色
-              [{font: []}], // 字体种类
-              [{align: []}], // 对齐方式
-              ["clean"], // 清除文本格式
-              ["link", "image", "video"] // 链接、图片、视频
-            ], //工具菜单栏配置
+            toolbar: {
+              container: toolbarOptions,
+              handlers: {
+                image: function (value) {
+                  if (value) {
+                    console.log("value = " + value)
+                    document.querySelector(".avatar-uploader input").click();
+                  } else {
+                    this.quill.format("image", false);
+                  }
+                }
+              }
+            },
           },
-          placeholder: '请在这里添加产品描述', //提示
-          readyOnly: false, //是否只读
-          theme: 'snow', //主题 snow/bubble
-          syntax: true, //语法检测
+          placeholder: '你想说点什么',
+          readyOnly: false,
+          theme: 'snow',
+          syntax: true,
         },
+        serverUrl: 'http://www.oss.smilekay.com/prev/',
         title: '',
-        content: '',
-        introduce: ''
+        content: ''
       }
     },
     methods: {
@@ -72,26 +78,31 @@
       },
       onEditorChange(editor) {
         this.content = editor.html;
-        this.introduce = editor.text;
+        console.log(this.content)
+      },
+      uploadSuccess(res, file) {
+
       },
       onPublish: function () {
-        if (this.title == '') {
-          this.$message.error('标题不能为空');
-        } else if (this.content == '') {
-          this.$message.error('内容不能为空');
-        } else {
-          if (this.introduce.length > 30) {
-            this.introduce = this.introduce.substr(0, 30);
+        let user = this.$store.getters.getUser
+        let str = sessionStorage.getItem('vuex');
+        if (str != null && user != null) {
+          if (this.title == '') {
+            this.$message.error('标题不能为空');
+          } else if (this.content == '') {
+            this.$message.error('内容不能为空');
+          } else {
+            this.$post('/article/save', {
+              title: this.title,
+              content: this.content
+            }).then(response => {
+              this.$message.success('发表成功！');
+            }).catch(error => {
+              this.$message.error('发表失败！');
+            })
           }
-          this.$post('/article/save', {
-            title: this.title,
-            content: this.content,
-            introduce: this.introduce
-          }).then(response => {
-            this.$message.info('发表成功！');
-          }).catch(error => {
-            this.$message.error('获取视频信息失败,请稍后重试！');
-          })
+        }else {
+          this.$message.warning('亲，登陆后才能发帖哦！');
         }
       }
     },
@@ -101,6 +112,22 @@
       }
     }
   }
+
+  const toolbarOptions = [
+    ["bold", "italic", "underline", "strike"],
+    ["blockquote", "code-block"],
+    [{header: 1}, {header: 2}],
+    [{list: "ordered"}, {list: "bullet"}],
+    [{script: "sub"}, {script: "super"}],
+    [{indent: "-1"}, {indent: "+1"}],
+    [{size: ["small", false, "large", "huge"]}],
+    [{header: [1, 2, 3, 4, 5, 6, false]}],
+    [{color: []}, {background: []}],
+    [{font: []}],
+    [{align: []}],
+    ["clean"],
+    ["link", "image", "video"]
+  ]
 </script>
 
 <style scoped>

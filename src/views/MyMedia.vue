@@ -4,7 +4,7 @@
     </el-page-header>
     <el-row>
       <el-col :span="14" :offset="3">
-        <h2 class="media-name">huhu</h2>
+        <h2 class="media-name">{{video.title}}</h2>
       </el-col>
     </el-row>
     <el-row>
@@ -88,9 +88,9 @@
           fluid: true, // 当true时，Video.js player将拥有流体大小。换句话说，它将按比例缩放以适应其容器。
           sources: [{
             type: "application/x-mpegURL",
-            src: "https://haokan-sk.oss-cn-shanghai.aliyuncs.com/v/" + this.$route.query.name + "/sk.m3u8" //视频url地址
+            src: "http://www.oss.smilekay.com/v/" + this.$route.query.name + "/sk.m3u8" //视频url地址
           }],
-          poster: "https://haokan-sk.oss-cn-shanghai.aliyuncs.com/prev/" + this.$route.query.name + "/cover.jpg",
+          poster: "http://www.oss.smilekay.com/prev/" + this.$route.query.name + "/cover.jpg",
           //你的封面地址
           // width: document.documentElement.clientWidth,
           notSupportedMessage: '此视频暂无法播放，请稍后再试', //允许覆盖Video.js无法播放媒体源时显示的默认信息。
@@ -122,7 +122,7 @@
     mounted: function () {
       const self = this;
       let name = this.$route.query.name
-      this.video.src = "https://haokan-sk.oss-cn-shanghai.aliyuncs.com/v/" + name + "/sk.m3u8"
+      this.video.src = "http://www.oss.smilekay.com/v/" + name + "/sk.m3u8"
       this.$refs.videoPlayer.player.src(this.video.src)
       this.$get('/video', {name: name}).then(response => {
         console.log('video: ' + response.data.createDate);

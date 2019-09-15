@@ -71,7 +71,7 @@
           this.pageInfo.currentTotal = response.cursor.total
         }).catch(error => {
           if (error.data.data == 1) {
-            this.$message.error('亲，登陆后可观看视频哦！');
+            this.$message.warning('亲，登陆后可观看视频哦！');
             history.go(-2);
           } else {
             this.$message.error('获取视频信息失败,请稍后重试！');
@@ -149,25 +149,5 @@
       right: 30%;
       top: 80px;
     }
-  }
-
-  .label-header {
-    position: absolute;
-    top: 5px;
-    left: 5px;
-    color: #fff;
-    font-size: 14px;
-    line-height: 1.42857143;
-    font-weight: 900;
-  }
-
-  .label-bottom {
-    position: absolute;
-    left: 5px;
-    bottom: 5px;
-    color: #fff;
-    font-size: 14px;
-    line-height: 1.42857143;
-    font-weight: 900;
   }
 </style>

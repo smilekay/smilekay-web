@@ -1,5 +1,8 @@
 <template>
-    <h2>页面不存在，请重试！</h2>
+  <div>
+    <svg aria-hidden="true"><use xlink:href="#el-icon-smile404"/> </svg>
+    <h4>404！抱歉，您查看的页面不存在～～</h4>
+  </div>
 </template>
 
 <script>
@@ -9,7 +12,7 @@
 </script>
 
 <style scoped>
-h2{
-  text-align: center;
-}
+  div{
+    width: 100%;
+  }
 </style>

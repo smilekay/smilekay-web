@@ -37,14 +37,14 @@
                         <el-row>
                           <el-col :span="18">
                             <div class="left">
-                              <span class="thread_list_abs">{{f.content}}</span>
+                              <span class="thread_list_abs">{{f.introduce}}</span>
                             </div>
                           </el-col>
                           <el-col :span="4">
                             <span class="thread_list_author left" title="最后回复人"><i class="el-icon-chat-dot-round"/> {{f.replyName}}</span>
                           </el-col>
                           <el-col :span="2">
-                            <span class="thread_list_author left" title="最后回复时间">{{f.updateDate}}</span>
+                            <span class="thread_list_author left" title="最后回复时间">{{renderTime(f.updateDate)}}</span>
                           </el-col>
                         </el-row>
                         <el-row>
@@ -91,7 +91,7 @@
           </li>
         </ul>
       </div>
-      <div class="forum-foot">
+      <div id="forum_foot" class="forum-foot">
         <VueQuillEditor/>
       </div>
     </div>
@@ -120,7 +120,7 @@
         ]
       }
     },
-    methods:{
+    methods: {
       onCurrentChanged: function (val) {
         this.getData(val)
       },
@@ -132,11 +132,20 @@
           this.pageInfo.data = response.data
           this.pageInfo.currentTotal = response.cursor.total
         }).catch(error => {
-          this.$message.error('获取视频信息失败,请稍后重试！');
+          this.$message.error('获取信息失败,请稍后重试！');
         })
       },
       toBottom: function () {
-        凯哥酒楼：桂林市灵川大道25
+        document.getElementById('forum_foot').scrollIntoView();
+      },
+      renderTime: function (date) {
+        let dateJson = new Date(date).toJSON();
+        let d = new Date(+new Date(dateJson) - 5 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '')
+        if ((new Date()).getTime() - (new Date(d.substr(0, 10))).getTime() < 86400000) {
+          return d.substr(11, 5)
+        } else {
+          return d.substr(5, 5)
+        }
       }
     },
     mounted: function () {

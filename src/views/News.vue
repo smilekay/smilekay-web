@@ -25,16 +25,16 @@
             element-loading-spinner="el-icon-loading"
             element-loading-background="rgba(0, 0, 0, 0.8)">
           <li v-for="n in data">
-            <a :href="n.url">
+            <el-link :href="n.url" target="_blank">
               <span class="news-title">{{n.title}}</span>
               <p class="news-time"><span class="news-src">{{n.src}}</span>时间： {{n.time}}</p>
               <div class="news-pic">
-                <img class="news-img" :src="n.pic"/>
+                <el-image class="news-img" :src="n.pic"/>
                 <div class="label-header">
                   <span class="mask">{{n.category}}</span>
                 </div>
               </div>
-            </a>
+            </el-link>
           </li>
         </ul>
       </el-main>
@@ -121,14 +121,14 @@
       }
     },
     mounted() {
-      // this.loading = true
-      // this.$get("/news/get", {channel: '头条'}).then(response => {
-      //   this.loading = false
-      //   this.data = response.data
-      // }).catch(() => {
-      //   this.$message.error('获取新闻信息失败,请稍后重试！');
-      //   this.loading = false
-      // })
+      this.loading = true
+      this.$get("/news/get", {channel: '头条'}).then(response => {
+        this.loading = false
+        this.data = response.data
+      }).catch(() => {
+        this.$message.error('获取新闻信息失败,请稍后重试！');
+        this.loading = false
+      })
     }
   }
 </script>

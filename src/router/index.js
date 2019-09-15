@@ -14,6 +14,7 @@ import Videos from '@/views/Videos'
 import Forum from "../views/Forum";
 import Admin from "../views/Admin";
 import MyMedia from "../views/MyMedia";
+import Post from "../views/Post";
 
 Vue.use(Router)
 
@@ -46,6 +47,11 @@ export default new Router({
       path: '/video',
       name: 'Media',
       component: Media
+    },
+    {
+      path: '/p',
+      name: 'Post',
+      component: Post
     },
     {
       path: '/av',

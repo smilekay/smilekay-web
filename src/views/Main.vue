@@ -2,12 +2,12 @@
   <el-container>
     <el-header>
       <el-menu default-active="1" mode="horizontal" background-color="#545c64" text-color="#fff"
-               active-text-color="#ffd04b">
-        <el-menu-item index="1" style="font-size: 15px" @click="onSelect('/mall')">首页</el-menu-item>
-        <el-menu-item index="2" style="font-size: 15px" @click="onSelect('/videos')">视频</el-menu-item>
-        <el-menu-item index="3" style="font-size: 15px" @click="onSelect('/forum')">论坛</el-menu-item>
-        <el-menu-item index="4" style="font-size: 15px" @click="onSelect('/news')">资讯</el-menu-item>
-        <el-submenu index="5" style="position: absolute;right: 20px" v-if="islogin">
+               active-text-color="#ffd04b" @select="handleSelect">
+        <el-menu-item index="1">首页</el-menu-item>
+        <el-menu-item index="2">视频</el-menu-item>
+        <el-menu-item index="3">论坛</el-menu-item>
+        <el-menu-item index="4">资讯</el-menu-item>
+        <el-submenu index="5" style="float: right" v-if="islogin">
           <template slot="title"><img :src="avatar"/></template>
           <el-menu-item index="2-0" style="height: 120px">
             <el-row>
@@ -40,12 +40,12 @@
             </el-row>
           </el-menu-item>
           <el-menu-item index="2-1"><i class="iconfont el-icon-smileiconfront-"/> 个人中心</el-menu-item>
-          <el-menu-item index="2-2" @click="onSelect('/help')"><i class="iconfont el-icon-smilebangzhu"/> 帮助
+          <el-menu-item index="2-2"><i class="iconfont el-icon-smilebangzhu"/> 帮助
           </el-menu-item>
           <el-menu-item index="2-3" @click="onQuit"><i class="iconfont el-icon-smiledingbudaohang-zhangh"/> 退出
           </el-menu-item>
         </el-submenu>
-        <el-menu-item index="6" style="position: absolute;right: 20px" @click="onSelect('/login')" v-else>
+        <el-menu-item index="6" style="float: right" v-else>
           <svg aria-hidden="true" class="home">
             <use xlink:href="#el-icon-smiledenglu"/>
           </svg>
@@ -56,7 +56,7 @@
     <el-main>
       <router-view/>
     </el-main>
-    <BackToTop />
+    <BackToTop/>
   </el-container>
 </template>
 
@@ -86,8 +86,42 @@
           this.$message.error('注销失败,请稍后重试！');
         })
       },
-      onSelect(path) {
-        this.$router.push(path);
+      handleSelect(index, indexPath) {
+        let path = '';
+        switch (index) {
+          case '1':
+            path = '/mall';
+            break;
+          case '2':
+            path = '/videos';
+            break;
+          case '3':
+            path = '/forum';
+            break;
+          case '4':
+            path = '/news';
+            break;
+          case '6':
+            path = '/login';
+            break;
+          case '2-1':
+
+            break;
+          case '2-2':
+            path = '/help';
+            break;
+        }
+        if (path == '/videos') {
+          let user = this.$store.getters.getUser
+          let str = sessionStorage.getItem('vuex');
+          if (str != null && user != null) {
+            this.$router.push(path);
+          } else {
+            this.$message.warning('亲，登陆后可观看视频哦！')
+          }
+        } else {
+          this.$router.push(path);
+        }
       },
       onAttend() {
         this.$get('/user/sign').then(response => {
