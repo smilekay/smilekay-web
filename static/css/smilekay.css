@@ -414,15 +414,14 @@
   font-size: 14px;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 .thread_list_abs {
   width: 460px;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
   color: #666;
+  font-size: 12px;
 }
 
 .thread_list_abs_img{
@@ -523,4 +522,24 @@
 
 .margin_small{
   margin: 10px;
+}
+
+.label-header {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  color: #fff;
+  font-size: 14px;
+  line-height: 1.42857143;
+  font-weight: 900;
+}
+
+.label-bottom {
+  position: absolute;
+  left: 5px;
+  bottom: 5px;
+  color: #fff;
+  font-size: 14px;
+  line-height: 1.42857143;
+  font-weight: 900;
 }
