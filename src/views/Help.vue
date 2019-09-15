@@ -1,28 +1,32 @@
 <template>
-    <div>
-      <el-container>
-        <el-aside width="200px">
-          <el-menu default-active="1">
-              <el-menu-item index="1" @click="onSelect('/contact')">联系我</el-menu-item>
-              <el-menu-item index="2">积分等级</el-menu-item>
-          </el-menu>
-        </el-aside>
-        <el-main>
-          <router-view/>
-        </el-main>
-      </el-container>
-    </div>
+  <div>
+    <el-container>
+      <el-aside width="200px">
+        <el-menu default-active="1" @select="onSelect">
+          <el-menu-item index="1">联系我</el-menu-item>
+          <el-menu-item index="2">积分等级</el-menu-item>
+        </el-menu>
+      </el-aside>
+      <el-main>
+        <router-view/>
+      </el-main>
+    </el-container>
+  </div>
 </template>
 
 <script>
-    export default {
-        name: "Help",
-      methods:{
-        onSelect(path) {
-          this.$router.push(path);
+  export default {
+    name: "Help",
+    methods: {
+      onSelect(index, indexPath) {
+        if (index=='1'){
+          this.$router.push('/contact');
+        } else {
+          this.$router.push('/help');
         }
       }
     }
+  }
 </script>
 
 <style scoped>
