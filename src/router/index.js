@@ -8,7 +8,6 @@ import News from '@/views/News'
 import Callback from '@/views/Callback'
 import Media from '@/views/Media'
 import Help from '@/views/Help'
-import Contact from '@/views/Contact'
 import AddVideo from '@/views/AddVideo'
 import Videos from '@/views/Videos'
 import Forum from "../views/Forum";
@@ -30,11 +29,7 @@ export default new Router({
         {path: '/videos', name: 'Videos', component: Videos},
         {path: '/news', name: 'News', component: News},
         {path: '/forum', name: 'Forum', component: Forum},
-        {
-          path: '/help', name: 'Help', component: Help, children: [
-            {path: '/contact', name: 'Contact', component: Contact}
-          ]
-        },
+        {path: '/help', name: 'Help', component: Help},
         {path: '/admin', name: 'Admin', component: Admin}
       ]
     },
