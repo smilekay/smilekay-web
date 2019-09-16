@@ -3,12 +3,12 @@
     <div>
       <img style="width: 70%" src="../../static/images/default_head.jpg"/>
     </div>
-    <div style="width: 70%;margin: -20px auto 20px auto;background-color: white">
+    <div style="width: 70%;margin: -20px auto 20px auto;background-color: #fafbfc">
       <ul style="padding-top: 10px;list-style: none">
         <li>
           <el-row>
             <el-col :span="6">
-              <ul style="list-style: none">
+              <ul style="list-style: none;margin-top: 10px">
                 <li>
                   <el-image
                     style="width: 100px; height: 100px"
@@ -26,15 +26,17 @@
               </ul>
             </el-col>
             <el-col :span="18">
-              <div style="background: #fff;height: 50px">haha</div>
+              <div style="background: #fff;height: 500px">
+                <span style="margin-top: 10px">huhu</span>
+              </div>
             </el-col>
           </el-row>
-          <el-divider></el-divider>
+          <el-divider style="margin: 0"></el-divider>
         </li>
         <li>
           <el-row>
             <el-col :span="6">
-              <ul style="list-style: none">
+              <ul style="list-style: none;margin-top: 10px">
                 <li>
                   <el-image
                     style="width: 100px; height: 100px"
@@ -52,15 +54,17 @@
               </ul>
             </el-col>
             <el-col :span="18">
-              <div style="background: #fff;height: 50px">haha</div>
+              <div style="background: #fff;height: 500px">
+                <span style="margin-top: 10px">huhu</span>
+              </div>
             </el-col>
           </el-row>
-          <el-divider></el-divider>
+          <el-divider style="margin: 0"></el-divider>
         </li>
         <li>
           <el-row>
             <el-col :span="6">
-              <ul style="list-style: none">
+              <ul style="list-style: none;margin-top: 10px">
                 <li>
                   <el-image
                     style="width: 100px; height: 100px"
@@ -78,15 +82,17 @@
               </ul>
             </el-col>
             <el-col :span="18">
-              <div style="background: #fff;height: 50px">haha</div>
+              <div style="background: #fff;height: 500px">
+                <span style="margin-top: 10px">huhu</span>
+              </div>
             </el-col>
           </el-row>
-          <el-divider></el-divider>
+          <el-divider style="margin: 0"></el-divider>
         </li>
         <li>
           <el-row>
             <el-col :span="6">
-              <ul style="list-style: none">
+              <ul style="list-style: none;margin-top: 10px">
                 <li>
                   <el-image
                     style="width: 100px; height: 100px"
@@ -104,36 +110,12 @@
               </ul>
             </el-col>
             <el-col :span="18">
-              <div style="background: #fff;height: 50px">haha</div>
+              <div style="background: #fff;height: 500px">
+                <span style="margin-top: 10px">huhu</span>
+              </div>
             </el-col>
           </el-row>
-          <el-divider></el-divider>
-        </li>
-        <li>
-          <el-row>
-            <el-col :span="6">
-              <ul style="list-style: none">
-                <li>
-                  <el-image
-                    style="width: 100px; height: 100px"
-                    src="https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg"
-                    fit="cover"></el-image>
-                </li>
-                <li style="margin: 10px auto">
-                  <span>smilekay</span>
-                </li>
-                <li>
-                  <svg aria-hidden="true">
-                    <use xlink:href="#el-icon-smilechuangxiangqingtongvip"/>
-                  </svg>
-                </li>
-              </ul>
-            </el-col>
-            <el-col :span="18">
-              <div style="background: #fff;height: 50px">haha</div>
-            </el-col>
-          </el-row>
-          <el-divider></el-divider>
+          <el-divider style="margin: 0"></el-divider>
         </li>
       </ul>
     </div>
